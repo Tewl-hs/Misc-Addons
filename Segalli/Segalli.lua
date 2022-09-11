@@ -1,4 +1,5 @@
 --[[
+--      !!! DON'T USE THIS WITH THE CURRENCY ADDON - IT DOES THE SAME THING !!! 
 --      Install:
 --          Put in Windower/Addons/Segalli then in game: //lua load segalli
 --      Description:
