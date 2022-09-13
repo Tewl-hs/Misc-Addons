@@ -138,12 +138,12 @@ windower.register_event('incoming chunk',function (id,original,modified,is_injec
             local segs = currencies["Segments"] - last_segs
             windower.add_to_chat(7,"Segment gain: "..segs.." | Total: "..currencies["Segments"]) -- Report Total Segments
         end
-        if zone == 267 and last_zone ==  275 then
+        if zone == 267 and (last_zone ==  275 or last_zone == 133) then
             local galli = currencies["Gallimaufry"] - last_galli 
             windower.add_to_chat(7,"Gallimaufry gain: "..galli.." | Total: "..currencies["Gallimaufry"]) -- Difference/Report Total Gallimaufry
         end
         last_zone = zone -- Record zone for tracking
-        if zone ~= 275 then last_galli = currencies["Gallimaufry"] end
+        if zone ~= 275 or zone ~= 133 then last_galli = currencies["Gallimaufry"] end
         if zone ~= 298 or zone ~= 279 then last_segs = currencies["Segments"] end -- Update segment total if not inside Odyssey
         --------------------------------------------------------------------------
         update_currency()
