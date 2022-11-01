@@ -22,7 +22,7 @@ file = require 'files'
 res = require 'resources'
 
 settings = T{}
-defaults = T{assist_target='Tewl'} -- Tewl is the default name set when no value exists in the settings. Feel free to change it.
+defaults = T{assist_target='Tewl'} -- Tewl is the default name set when no value exists in the settings.xml Feel free to change it.
 
 current_target = nil
 
