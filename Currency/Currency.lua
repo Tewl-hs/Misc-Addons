@@ -108,24 +108,15 @@ windower.register_event('incoming chunk',function (id,original,modified,is_injec
 
     if id == 0x118 then -- Currencies 2
         local p = packets.parse('incoming', original)
-        --currencies["Bayld"]					= p['Bayld']                                     -- 04
-        --currencies["Kinetic Units"]			= p['Kinetic Units']                             -- 08
-        currencies["Imprimaturs"]				= p['Coalition Imprimaturs']                     -- 0A
-        currencies["Canteens"]          		= p['Mystical Canteens']                         -- 0B
-        --currencies["Fragments"]       		= p['Obsidian Fragments']                        -- 0C
-        currencies["Plasm"]					= p['Mweya Plasm Corpuscles']                    -- 14
-        currencies["Beads"]					= p['Escha Beads']                               -- 4A
-        --currencies["Silt"]					= p['Escha Silt']                                -- 4C
-        --currencies["Potpourri"]				= p['Potpourri']                                 -- 50
-        currencies["Hallmarks"]				= p['Hallmarks']                                 -- 54
-        --currencies["Hallmarks (Total)"]		= p['Total Hallmarks']                           -- 58
-        currencies["Gallantry"]				= p['Badges of Gallantry']                       -- 5C
-        --currencies["Crafter Points"]			= p['Crafter Points']                            -- 60
-        currencies["Silver Voucher"]			= p['Silver A.M.A.N. Vouchers Stored']           -- 80
-        --currencies["Domain Points"]			= p['Domain Points']                             -- 84
-        --currencies["Daily Domain"]			= p['Domain Points Earned Today']                -- 88
-        currencies["Segments"]				    = math.floor(original:unpack("i",0x8C)/2^8)      -- 8C
-        currencies["Gallimaufry"]				= math.floor(original:unpack("i",0x90)/2^8)      -- 90
+        currencies["Imprimaturs"]				        = p['Coalition Imprimaturs']
+        currencies["Canteens"]          		        = p['Mystical Canteens']
+        currencies["Plasm"]					            = p['Mweya Plasm Corpuscles'] 
+        currencies["Beads"]					            = p['Escha Beads'] 
+        currencies["Hallmarks"]				            = p['Hallmarks']
+        currencies["Gallantry"]				            = p['Badges of Gallantry']
+        currencies["Silver Voucher"]			        = p['Silver A.M.A.N. Vouchers Stored'] 
+        currencies["Segments"]				            = p['Mog Segments']
+        currencies["Gallimaufry"]				        = p['Gallimaufry'] 
         --------------------------------------------------------------------------
         -- Calculate difference in segments after leaving odyssey. 
         -- Same for Gallimaufry when zoning back into Kamihr Drifts 
