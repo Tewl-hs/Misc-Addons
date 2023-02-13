@@ -1,7 +1,7 @@
---[[
-	So this was made just as a joke to leaden people in Dynamis when they got charmed but I mainly use it to just call out when someone does get charmed.
-	Read lines 33 and 53 if you wish for this to do more than just announce someone being charmed.
---]]
+--
+-- This is a very basic script, I did not add in checks for status effects on self or if you have access to the weaponsklill
+-- It was written mostly for a laugh to kill people who get charmed in dynamis.
+--   
 _addon.name     = "CharmSniper"
 _addon.author   = "Tewl"
 _addon.version  = "0.5"
@@ -12,7 +12,9 @@ local packets = require("packets")
                 require("strings")
                 require("lists")
                 require("tables")
-                require("logger")
+
+local weaponskill = 'Namas Arrow'
+local range = 12
 
 windower.register_event('action',function (act)
 	local actor = windower.ffxi.get_mob_by_id(act.actor_id)		
@@ -25,33 +27,35 @@ windower.register_event('action',function (act)
 		if category == 11 then
 			if res.monster_abilities[param] then
 				ability = res.monster_abilities[param].en
-				if ability == 'Charm' and target.name ~= self.name then -- if enemy uses charm ability on anyone but you
-					-- Need to add check to make sure charm successful (Only works for party members)
-					windower.send_command('input /p ['..ability..'] '..target.name..' <call21>')
-					
-					if self.vitals.tp > 999 and self.vitals.hpp > 0 then -- Make sure alive and enough tp
-						-- Uncomment and edit the line below to face the target that has been charmed
-						--face_target(target) -- Look at the target
-
-						-- This part really isnt necessary. Just swaps to the target
-						if self.status == 'Engaged' then -- Switch target
-							local packet = packets.new('outgoing', 0x01A, {
-								['Target']=target.id,
-								['Target Index']=target.index,
-								['Category']=15
-							})
-							packets.inject(packet)
-						else -- Engaged target
-							local packet = packets.new('outgoing', 0x01A, {
-								['Target']=target.id,
-								['Target Index']=target.index,
-								['Category']=2
-							})
-							packets.inject(packet)
-						end
+				if ability == 'Charm' and target.name ~= self.name then
+					if target.charmed == true then
+						windower.send_command('input /p ['..ability..'] '..target.name..' <call21>')
 						
-						-- Uncomment and edit the line below to the skill you wish to use on the target. If you are going to use this be sure to uncomment line 34 as well
-						--windower.send_command('wait 1.0;input /ws "Namas Arrow" '..target.id)
+						if self.vitals.tp > 999 and self.vitals.hpp > 0 and target.distance <= range then -- Make sure alive and enough tp and target is within the range value
+							face_target(target) -- Look at the target
+
+							-- Engage target -- This part really isnt necessary. Just engages/swaps to the target.
+							if self.status == 'Engaged' then -- Switch to target
+								local packet = packets.new('outgoing', 0x01A, {
+									['Target']=target.id,
+									['Target Index']=target.index,
+									['Category']=15
+								})
+								packets.inject(packet)
+							else -- Engaged target
+								local packet = packets.new('outgoing', 0x01A, {
+									['Target']=target.id,
+									['Target Index']=target.index,
+									['Category']=2
+								})
+								packets.inject(packet)
+							end
+							--- End of Engaged --
+
+							-- Have a 1 second delay on weaponskill for latency in dynamis
+							-- You can try changing it if you feel its too long or not long enough
+							windower.send_command('wait 1.0;input /ws "'..weaponskill..'" '..target.id)
+						end
 					end
 				end
 			end
